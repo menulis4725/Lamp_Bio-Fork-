@@ -15,7 +15,8 @@ jobs:
       - name: Copy submissions to Group_07_Submission and verify every file
         shell: python
         run: |
-          import hashlib, pathlib, shutil, subprocess
+          import hashlib, pathlib, shutil, subprocess, os
+          os.environ['GIT_LFS_SKIP_SMUDGE']='1'
           def run(*args, cwd=None):
               return subprocess.check_output(["git", *args], cwd=cwd)
           source=pathlib.Path("../original-submissions").resolve()
@@ -55,6 +56,24 @@ jobs:
               mode,blob,stage=meta.split()
               rel=str(pathlib.Path(path.decode()).relative_to(root))
               assert (mode.decode(),blob.decode())==expected[rel],rel
+          # Transfer the original LFS video without changing its pointer file.
+          oid="8e1796da36ef4d04ce3d4bd068975b2a616cec8666674f47958584d3fd60380a"
+          subprocess.run(["git","lfs","fetch","origin","20e40081f249d924f68974effd64330d507a9c12"],cwd=source,check=True)
+          obj=source/".git/lfs/objects"/oid[:2]/oid[2:4]/oid
+          assert obj.stat().st_size==616429505
+          digest=hashlib.sha256()
+          with obj.open("rb") as handle:
+              for chunk in iter(lambda:handle.read(8*1024*1024),b""): digest.update(chunk)
+          assert digest.hexdigest()==oid
+          print("Verified LFS video size and SHA-256")
+          auth=run("config","--get","http.https://github.com/.extraheader").decode().strip()
+          lfs_env=os.environ.copy()
+          lfs_env["GIT_CONFIG_COUNT"]="1"
+          lfs_env["GIT_CONFIG_KEY_0"]="http.https://github.com/.extraheader"
+          lfs_env["GIT_CONFIG_VALUE_0"]=auth
+          subprocess.run(["git","lfs","push","--object-id","https://github.com/menulis4725/Lamp_Bio-Fork-.git",oid],cwd=source,env=lfs_env,check=True)
+          print("Transferred original LFS video to destination")
+          
           subprocess.run(["git","commit","-m","Import 1177 original lab files into Group_07_Submission; clarify submission history"],check=True)
           subprocess.run(["git","push","origin","HEAD:main"],check=True)
           print("Migration commit:",run("rev-parse","HEAD").decode().strip())
