@@ -1,0 +1,61 @@
+name: Import original lab submissions once
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/import-original-submissions.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Copy submissions to Group_07_Submission and verify every file
+        shell: python
+        run: |
+          import hashlib, pathlib, shutil, subprocess
+          def run(*args, cwd=None):
+              return subprocess.check_output(["git", *args], cwd=cwd)
+          source=pathlib.Path("../original-submissions").resolve()
+          subprocess.run(["git","clone","--no-checkout","https://github.com/menulis4725/Lab_Bio-Inspire.git",str(source)],check=True)
+          subprocess.run(["git","checkout","--detach","20e40081f249d924f68974effd64330d507a9c12"],cwd=source,check=True)
+          root=pathlib.Path("Group_07_Submission")
+          assert not root.exists(), "Destination already exists; refusing overwrite"
+          roots=sorted(p.name for p in source.iterdir() if p.is_dir() and p.name.startswith("Week_"))
+          assert roots==["Week_02_Lab_02","Week_03_Lab_03","Week_04_Lab_04","Week_05_Lab_05","Week_06_Lab_06","Week_07_Lab_07"],roots
+          root.mkdir()
+          for name in roots: shutil.copytree(source/name,root/name)
+          entries=run("ls-tree","-rz","--full-tree","20e40081f249d924f68974effd64330d507a9c12",cwd=source).split(b"\0")
+          expected={}
+          for item in entries:
+              if not item: continue
+              meta,path=item.split(b"\t",1)
+              mode,kind,blob=meta.split()
+              assert kind==b"blob"
+              p=root/path.decode()
+              data=p.read_bytes()
+              actual=hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
+              assert actual==blob.decode(),str(p)
+              expected[path.decode()]=(mode.decode(),blob.decode())
+          assert len(expected)==1177,len(expected)
+          actual_paths={str(p.relative_to(root)) for p in root.rglob("*") if p.is_file()}
+          assert actual_paths==set(expected)
+          print("Verified all",len(expected),"original file paths and blob hashes")
+          pathlib.Path("README.md").write_text("# งานส่ง Bio-Inspired Robotics — กลุ่ม 7\n\nงานทั้งหมดอยู่ใน [Group_07_Submission](Group_07_Submission/) โดยแยกตาม Lab02–Lab07 และคงชื่อ โครงสร้าง และเนื้อหาไฟล์เดิม\n\n## สำหรับอาจารย์: ตรวจเวลาส่งงานเดิม\n\n**โปรดใช้ [ประวัติ commit ของ repo ส่งงานเดิม](https://github.com/menulis4725/Lab_Bio-Inspire/commits/main/) ตรวจเวลาส่ง โดยเปิด commit ของไฟล์หรือแลปที่เกี่ยวข้อง**\n\nวันที่ commit ย้ายเข้า fork นี้เป็นวันที่คัดลอกสำเนา ไม่ใช่วันที่ส่งงานครั้งแรก การคัดลอกไฟล์ไม่ได้ย้ายประวัติ commit ของงานเดิมมาด้วย และวันที่แก้ README ไม่ใช่วันที่ส่งงานของแต่ละแลป\n\n- [Repository ส่งงานเดิม](https://github.com/menulis4725/Lab_Bio-Inspire)\n- [ต้นฉบับก่อนเพิ่มคำอธิบายการย้าย](https://github.com/menulis4725/Lab_Bio-Inspire/tree/20e40081f249d924f68974effd64330d507a9c12)\n- [Repository อาจารย์ที่ fork มา](https://github.com/potiwat/RAE67_bio_ins)\n\n## เปิดงานส่งแต่ละแลป\n\n| แลป | งานของกลุ่ม |\n|---|---|\n| Lab02 | [Week_02_Lab_02](Group_07_Submission/Week_02_Lab_02/) |\n| Lab03 | [Week_03_Lab_03](Group_07_Submission/Week_03_Lab_03/) |\n| Lab04 | [Week_04_Lab_04](Group_07_Submission/Week_04_Lab_04/) |\n| Lab05 | [Week_05_Lab_05](Group_07_Submission/Week_05_Lab_05/) |\n| Lab06 | [Week_06_Lab_06](Group_07_Submission/Week_06_Lab_06/) |\n| Lab07 | [Week_07_Lab_07](Group_07_Submission/Week_07_Lab_07/) |\n\nคัดลอกงานเดิม 1,177 ไฟล์และตรวจชื่อไฟล์กับ Git blob SHA-1 ทุกไฟล์ การตรวจนี้ยืนยันความตรงกันของสำเนา ไม่ใช่การรับรองคะแนนหรือความครบถ้วนตามเกณฑ์แลป\n\nโฟลเดอร์ `lab_02` ถึง `lab_07` ที่ root เป็นชุดเอกสารและโค้ดตั้งต้นจากอาจารย์ ส่วนงานส่งของกลุ่มอยู่ใต้ `Group_07_Submission/`\n\n---\n\n## เอกสารต้นฉบับของอาจารย์\n\n# RAE67 bio ins\n\nชุดแล็บสำหรับรายวิชา Bio Inspired Robotics จัดแต่ละแล็บไว้ในโฟลเดอร์ `lab_xx` เพื่อเพิ่มแล็บถัดไปได้โดยไม่ปะปนกัน\n\n| แล็บ | เนื้อหา | เอกสารเริ่มต้น |\n|---|---|---|\n| [Lab 02](lab_02/README.md) | Robust Reactive Lamp: sensor uncertainty และ sensorimotor control | [คู่มือนักศึกษา](lab_02/Lab02_Student_Manual_TH.docx) |\n| [Lab 03](lab_03/README.md) | SO(2) CPG และการเดินแบบ alternating tripod ของหุ่นยนต์หกขา | [คู่มือนักศึกษา](lab_03/Lab03_Student_Manual_TH.docx) |\n| [Lab 04](lab_04/README.md) | Artificial Hormone Mechanism: stimulus, hormone dynamics, receptor และ bounded mapping | [ใบงาน Word](lab_04/Lab04_Student_Worksheet_TH.docx) |\n| [Lab 05](lab_05/README.md) | Hormone → SO(2) CPG: comparison, timing/fault, one-factor และ synthetic contact | [ใบงาน Word](lab_05/Lab05_Student_Worksheet_TH.docx) / [PDF](lab_05/Lab05_Student_Worksheet_TH.pdf) |\n| [Lab 06](lab_06/README.md) | Emotion FSM: interaction, movement/RGB, paired C0/C1 และ replay | [ใบงาน Word](lab_06/Week06_Student_Worksheet_TH.docx) |\n| [Lab 07](lab_07/README.md) | ROS 2 interface: seven topics, paired offline trials และ experimental design | [ใบงาน Word](lab_07/Week07_Student_Worksheet_TH.docx) |\n\n## เริ่ม Lab 02\n\n```powershell\ncd lab_02\npython -m venv .venv\n.\\.venv\\Scripts\\Activate.ps1\npython -m pip install -r requirements.txt\npython -m unittest discover -s tests -v\n```\n\nเปิด [คำอธิบายแล็บ](lab_02/README.md) สำหรับขั้นตอนทดลองและไฟล์ที่ต้องส่ง ค่า controller ใน repo เป็น proposed course model สำหรับ simulator ไม่ใช่ค่าที่รับรองสำหรับหุ่นยนต์จริง\n\n## เริ่ม Lab 03\n\n```powershell\ncd lab_03\npython cpg_walk_sim.py --condition baseline --duration 2 --output-dir results\\smoke_test\n```\n\nเปิด [คำอธิบาย Lab 03](lab_03/README.md) แล้วดาวน์โหลด [คู่มือนักศึกษา](lab_03/Lab03_Student_Manual_TH.docx) ก่อนเริ่มทำ TODO ใน `student_cpg.py`\n\n## เริ่ม Lab 04\n\n```sh\ngit clone https://github.com/potiwat/RAE67_bio_ins.git\ncd RAE67_bio_ins/lab_04\npython3 --version\n```\n\nใช้ Python 3.10 ขึ้นไปและ standard library เท่านั้น บน Windows ใช้ `py -3` แทน `python3` ได้ เปิด [คู่มือ Lab 04](lab_04/README.md) และ [ใบงาน Word](lab_04/Lab04_Student_Worksheet_TH.docx) เขียน prediction แล้วเติม TODO ใน `student_hormone.py` ก่อนตรวจและรัน:\n\n```sh\npython3 check_submission.py --student-file student_hormone.py\npython3 lab04.py --controller-source student --condition all --profile step --output-dir results/comparison\n```\n\nstarter ที่ยังไม่เติม TODO จะไม่ผ่าน checker โดยตั้งใจ Lab04 วัดการตอบสนองของ hormone subsystem ใน proposed course model ไม่ได้ทดสอบ gait หรือความปลอดภัยของหุ่นยนต์จริง ชุดสาธารณะไม่รวมเฉลยหรือผลทดลองของผู้สอน\n\n\n## เริ่ม Lab 05\n\n```sh\ngit clone https://github.com/potiwat/RAE67_bio_ins.git\ncd RAE67_bio_ins/lab_05\npython3 --version\npython3 lab05.py --output-dir results/comparison\npython3 contact_demo.py --output-dir results/contact\n```\n\nใช้ Python 3.10 ขึ้นไปและ standard library เท่านั้น Windows ใช้ `py -3` แทน `python3` ได้ หากมี checkout เดิมให้เก็บงานของตนเองแล้ว `git pull --ff-only` ที่ root ก่อนเข้า `lab_05`\n\nอ่าน [คู่มือ Lab 05](lab_05/README.md) และ [ใบงาน Word](lab_05/Lab05_Student_Worksheet_TH.docx) / [PDF](lab_05/Lab05_Student_Worksheet_TH.pdf) ตั้ง prediction ก่อนรัน เปิด `results/comparison/report.html` และ `results/contact/report.html` ด้วย browser\n\nLab05 เป็น working scaffold สำหรับ prediction/analysis และเป็น proposed course model ที่ใช้ scheduled stimulus กับ kinematic body ส่วน contact demo ใช้ข้อมูลสังเคราะห์แยกจาก controller ยังไม่ใช่ full ALCS/MNLC หรือ terrain feedback ตามบทความ ชุดสาธารณะไม่รวมคู่มือเฉลย tests หรือผลตรวจของผู้สอน\n\n## เริ่ม Lab 06\n\n```sh\ngit clone https://github.com/potiwat/RAE67_bio_ins.git\ncd RAE67_bio_ins/lab_06\npython3 lab06.py --policy student --condition all --repeats 3 --output-dir results/starter\npython3 check_submission.py --contract group\n```\n\nใช้ Python 3.10 ขึ้นไปและ standard library เท่านั้น บน Windows ใช้ `py -3` แทน `python3` ได้ หากมี checkout เดิมให้เก็บงานของตนเองแล้ว `git pull --ff-only` ที่ root ก่อนเข้า `lab_06`\n\nอ่าน [คู่มือ Lab 06](lab_06/README.md) และ [ใบงาน Word](lab_06/Week06_Student_Worksheet_TH.docx) เติม TODO ใน `student_policy.py` แล้วตรวจ checker ตาม contract ที่เลือก Starter รันได้แต่ยังไม่ครบจึงควร FAIL ก่อนเติม TODO ใช้ชื่อ output ใหม่ทุกครั้งเพื่อรักษา raw traces เดิม\n\nLab06 เป็น proposed course model แบบ FSM กฎคงที่ เปรียบเทียบ C0 raw กับ C1 debounce/hysteresis และวัด applied software output onset ด้วยเวลาเสมือน ผลนี้ไม่ยืนยัน physical latency หรือการเรียนรู้ ชุดสาธารณะไม่รวมเฉลย reference policy tests หรือผลผู้สอน\n\n## เริ่ม Lab 07\n\n```sh\ngit clone https://github.com/potiwat/RAE67_bio_ins.git\ncd RAE67_bio_ins/lab_07\npython3 offline_lab.py --condition all --repeats 3 --output-dir results/starter_run\npython3 check_submission.py --contract group\npython3 check_proposal.py proposal.json\n```\n\nใช้ Python 3.10 ขึ้นไปและ standard library สำหรับ offline บน Windows ใช้ `py -3` แทน `python3` ได้ หากมี checkout เดิมให้เก็บงานของตนเองแล้ว `git pull --ff-only` ที่ root ก่อนเข้า `lab_07`\n\nอ่าน [คู่มือ Lab 07](lab_07/README.md) และ [ใบงาน Word](lab_07/Week07_Student_Worksheet_TH.docx) เติม TODO ใน `lamp_week07/student_policy.py` และ proposal ก่อนส่ง checker ของ starter ควร FAIL จนกว่างานส่วนนี้ครบ ใช้ Lab07 starter ได้เอง หรือใช้ policy ของกลุ่มที่ทำเสร็จจาก Lab06 ตามคู่มือ\n\nLab07 เป็น proposed course model เปรียบเทียบ C0 ideal delivery กับ C1 modeled jitter/drop ด้วยเวลาเสมือน ผล offline ไม่ใช่ ROS/DDS หรือ physical latency benchmark ส่วน ROS 2 adapter source ต้องใช้เครื่อง Ubuntu 24.04 + ROS 2 Jazzy ที่เตรียมไว้แล้ว ชุดสาธารณะไม่รวมเฉลย reference policy tests หรือผลทดลองของผู้สอน\n",encoding="utf-8")
+          subprocess.run(["git","config","user.name","menulis4725"],check=True)
+          subprocess.run(["git","config","user.email","232992891+menulis4725@users.noreply.github.com"],check=True)
+          subprocess.run(["git","add","--force","--","Group_07_Submission","README.md"],check=True)
+          staged=run("ls-files","-s","-z","--","Group_07_Submission").split(b"\0")
+          assert len([x for x in staged if x])==len(expected)
+          for item in staged:
+              if not item: continue
+              meta,path=item.split(b"\t",1)
+              mode,blob,stage=meta.split()
+              rel=str(pathlib.Path(path.decode()).relative_to(root))
+              assert (mode.decode(),blob.decode())==expected[rel],rel
+          subprocess.run(["git","commit","-m","Import 1177 original lab files into Group_07_Submission; clarify submission history"],check=True)
+          subprocess.run(["git","push","origin","HEAD:main"],check=True)
+          print("Migration commit:",run("rev-parse","HEAD").decode().strip())
+          
