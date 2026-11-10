@@ -1,29 +1,40 @@
 # งานส่ง Bio-Inspired Robotics — กลุ่ม 7
 
-Repository นี้เป็น fork ของ [potiwat/RAE67_bio_ins](https://github.com/potiwat/RAE67_bio_ins) สำหรับรวมงานและพัฒนาต่อจาก [repository ส่งงานเดิม](https://github.com/menulis4725/Lab_Bio-Inspire)
+งานทั้งหมดอยู่ใน [Group_07_Submission](Group_07_Submission/) โดยแยกตาม Lab02–Lab07 และคงชื่อ โครงสร้าง และเนื้อหาไฟล์เดิม
 
-## สำหรับอาจารย์: การตรวจเวลาส่งงานเดิม
+## สำหรับอาจารย์: ตรวจเวลาส่งงานเดิม
 
-**โปรดตรวจประวัติการส่งงานจาก [commit history ของ repo เดิม](https://github.com/menulis4725/Lab_Bio-Inspire/commits/main/) โดยดู commit ของไฟล์หรือแลปที่เกี่ยวข้อง**
+**โปรดใช้ [ประวัติ commit ของ repo ส่งงานเดิม](https://github.com/menulis4725/Lab_Bio-Inspire/commits/main/) ตรวจเวลาส่ง โดยเปิด commit ของไฟล์หรือแลปที่เกี่ยวข้อง**
 
-วันที่ commit คัดลอกงานเข้า fork เป็นวันที่ย้ายสำเนา ไม่ใช่วันที่ส่งงานครั้งแรก การคัดลอกไฟล์ไม่ได้ย้ายประวัติ commit เดิมมาด้วย และวันที่แก้ README นี้ไม่ใช่วันที่ส่งงานของแต่ละแลป
+วันที่ commit ย้ายเข้า fork นี้เป็นวันที่คัดลอกสำเนา ไม่ใช่วันที่ส่งงานครั้งแรก การคัดลอกไฟล์ไม่ได้ย้ายประวัติ commit ของงานเดิมมาด้วย และวันที่แก้ README ไม่ใช่วันที่ส่งงานของแต่ละแลป
 
-[ต้นฉบับก่อนเพิ่มคำอธิบายการย้าย](https://github.com/menulis4725/Lab_Bio-Inspire/tree/20e40081f249d924f68974effd64330d507a9c12)
+- [Repository ส่งงานเดิม](https://github.com/menulis4725/Lab_Bio-Inspire)
+- [ต้นฉบับก่อนเพิ่มคำอธิบายการย้าย](https://github.com/menulis4725/Lab_Bio-Inspire/tree/20e40081f249d924f68974effd64330d507a9c12)
+- [Repository อาจารย์ที่ fork มา](https://github.com/potiwat/RAE67_bio_ins)
 
-## สถานะการรวมงาน
+## เปิดงานส่งแต่ละแลป
 
-**ยังไม่ได้คัดลอกงานทั้ง 6 แลปเข้า fork นี้** ระหว่างเตรียมย้าย ให้เปิดงานที่ repo เดิมตามลิงก์ด้านล่าง
-
-| แลป | งานและประวัติใน repo เดิม |
+| แลป | งานของกลุ่ม |
 |---|---|
-| Lab02 | [Week_02_Lab_02](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_02_Lab_02) |
-| Lab03 | [Week_03_Lab_03](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_03_Lab_03) |
-| Lab04 | [Week_04_Lab_04](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_04_Lab_04) |
-| Lab05 | [Week_05_Lab_05](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_05_Lab_05) |
-| Lab06 | [Week_06_Lab_06](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_06_Lab_06) |
-| Lab07 | [Week_07_Lab_07](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_07_Lab_07) |
+| Lab02 | [Week_02_Lab_02](Group_07_Submission/Week_02_Lab_02/) |
+| Lab03 | [Week_03_Lab_03](Group_07_Submission/Week_03_Lab_03/) |
+| Lab04 | [Week_04_Lab_04](Group_07_Submission/Week_04_Lab_04/) |
+| Lab05 | [Week_05_Lab_05](Group_07_Submission/Week_05_Lab_05/) |
+| Lab06 | [Week_06_Lab_06](Group_07_Submission/Week_06_Lab_06/) |
+| Lab07 | [Week_07_Lab_07](Group_07_Submission/Week_07_Lab_07/) |
 
-โฟลเดอร์ `lab_02` ถึง `lab_07` ที่มีอยู่ใน fork ขณะนี้เป็นชุดเอกสารและโค้ดตั้งต้นของอาจารย์ ไม่ใช่โฟลเดอร์งานส่งที่คัดลอกจาก repo เดิม
+กำลังคัดลอกงานเดิม 1,177 รายการ โดย pointer วิดีโอ LFS จะเพิ่มแยกหลังย้ายไฟล์ปกติ ตรวจชื่อไฟล์กับ Git blob SHA-1 ทุกไฟล์ การตรวจนี้ยืนยันความตรงกันของสำเนา ไม่ใช่การรับรองคะแนนหรือความครบถ้วนตามเกณฑ์แลป
+
+โฟลเดอร์ `lab_02` ถึง `lab_07` ที่ root เป็นชุดเอกสารและโค้ดตั้งต้นจากอาจารย์ ส่วนงานส่งของกลุ่มอยู่ใต้ `Group_07_Submission/`
+
+## วิดีโอที่ใช้ Git LFS
+
+วิดีโอ `คลิปเล่นกับคน_10นาที_C1.MOV` ขนาด 616,429,505 bytes ยังเก็บข้อมูลจริงใน Git LFS ของ repo เดิม การคัดลอก pointer ไม่ได้ย้ายตัววิดีโอตามมาด้วย เนื่องจาก GitHub Actions ไม่สามารถอัปโหลด LFS object ใหม่เข้า public fork นี้ได้
+
+- [เปิดวิดีโอต้นฉบับ](https://github.com/menulis4725/Lab_Bio-Inspire/blob/20e40081f249d924f68974effd64330d507a9c12/Week_07_Lab_07/07_Evidence/CSV_%E0%B8%84%E0%B8%A5%E0%B8%B4%E0%B8%9B%E0%B9%80%E0%B8%A5%E0%B9%88%E0%B8%99%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%84%E0%B8%99_10%E0%B8%99%E0%B8%B2%E0%B8%97%E0%B8%B5_C1_20261106/%E0%B8%84%E0%B8%A5%E0%B8%B4%E0%B8%9B%E0%B9%80%E0%B8%A5%E0%B9%88%E0%B8%99%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%84%E0%B8%99_10%E0%B8%99%E0%B8%B2%E0%B8%97%E0%B8%B5_C1.MOV)
+- SHA-256: `8e1796da36ef4d04ce3d4bd068975b2a616cec8666674f47958584d3fd60380a`
+
+ยังไม่ถือว่าย้ายข้อมูลวิดีโอ LFS เสร็จจนกว่าจะอัปโหลดและดาวน์โหลดตรวจจาก fork ได้ ส่วนไฟล์ mp4 อีกไฟล์ที่เก็บใน Git ปกติคัดลอกตามงานมาด้วย
 
 ---
 
