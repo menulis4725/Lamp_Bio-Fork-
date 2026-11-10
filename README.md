@@ -1,3 +1,34 @@
+# งานส่ง Bio-Inspired Robotics — กลุ่ม 7
+
+Repository นี้เป็น fork ของ [potiwat/RAE67_bio_ins](https://github.com/potiwat/RAE67_bio_ins) สำหรับรวมงานและพัฒนาต่อจาก [repository ส่งงานเดิม](https://github.com/menulis4725/Lab_Bio-Inspire)
+
+## สำหรับอาจารย์: การตรวจเวลาส่งงานเดิม
+
+**โปรดตรวจประวัติการส่งงานจาก [commit history ของ repo เดิม](https://github.com/menulis4725/Lab_Bio-Inspire/commits/main/) โดยดู commit ของไฟล์หรือแลปที่เกี่ยวข้อง**
+
+วันที่ commit คัดลอกงานเข้า fork เป็นวันที่ย้ายสำเนา ไม่ใช่วันที่ส่งงานครั้งแรก การคัดลอกไฟล์ไม่ได้ย้ายประวัติ commit เดิมมาด้วย และวันที่แก้ README นี้ไม่ใช่วันที่ส่งงานของแต่ละแลป
+
+[ต้นฉบับก่อนเพิ่มคำอธิบายการย้าย](https://github.com/menulis4725/Lab_Bio-Inspire/tree/20e40081f249d924f68974effd64330d507a9c12)
+
+## สถานะการรวมงาน
+
+**ยังไม่ได้คัดลอกงานทั้ง 6 แลปเข้า fork นี้** ระหว่างเตรียมย้าย ให้เปิดงานที่ repo เดิมตามลิงก์ด้านล่าง
+
+| แลป | งานและประวัติใน repo เดิม |
+|---|---|
+| Lab02 | [Week_02_Lab_02](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_02_Lab_02) |
+| Lab03 | [Week_03_Lab_03](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_03_Lab_03) |
+| Lab04 | [Week_04_Lab_04](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_04_Lab_04) |
+| Lab05 | [Week_05_Lab_05](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_05_Lab_05) |
+| Lab06 | [Week_06_Lab_06](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_06_Lab_06) |
+| Lab07 | [Week_07_Lab_07](https://github.com/menulis4725/Lab_Bio-Inspire/tree/main/Week_07_Lab_07) |
+
+โฟลเดอร์ `lab_02` ถึง `lab_07` ที่มีอยู่ใน fork ขณะนี้เป็นชุดเอกสารและโค้ดตั้งต้นของอาจารย์ ไม่ใช่โฟลเดอร์งานส่งที่คัดลอกจาก repo เดิม
+
+---
+
+## เอกสารต้นฉบับของอาจารย์
+
 # RAE67 bio ins
 
 ชุดแล็บสำหรับรายวิชา Bio Inspired Robotics จัดแต่ละแล็บไว้ในโฟลเดอร์ `lab_xx` เพื่อเพิ่มแล็บถัดไปได้โดยไม่ปะปนกัน
