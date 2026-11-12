@@ -1,5 +1,8 @@
 # Week07 LeLamp ชุดส่งงานฉบับ 6 พฤศจิกายน 2026
 
+**วิดีโอสาธิตบนโคมจริง รอบวันที่ 12 พฤศจิกายน 2569** · [ดูคลิป 10 นาทีบน YouTube](https://youtu.be/-zckfxbT9Jk?feature=shared)
+
+
 เปิด3ไฟล์หลัก — ใช้ Word ฉบับที่ผู้ใช้แก้ไขและส่งล่าสุดจาก Desktop คัดลอกตรงต้นฉบับโดยไม่แก้เนื้อหา/ฟอนต์/รูปแบบ:
 
 1. [ใบงาน Word](05_Worksheet/Week07_Worksheet_FINAL_RESULTS_20261105.docx) หรือ [Markdown](05_Worksheet/worksheet.md)
